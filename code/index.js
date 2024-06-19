@@ -32,12 +32,14 @@ app.all("/*", (req, res) => {
             res.write(msg)
         })
 
-        let param = tts.defaultStartParams()
-        param.text = '你好，王可！'
-        param.voice = process.env.TTS_VOICE_ID
+        req.json().then(reqJson => {
+            let param = tts.defaultStartParams()
+            param.text = reqJson.text
+            param.voice = process.env.TTS_VOICE_ID
 
-        tts.start(param, true, 6000).then(() => {
-            res.send()
+            tts.start(param, true, 6000).then(() => {
+                res.send()
+            })
         })
     });
 
