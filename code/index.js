@@ -24,24 +24,24 @@ app.all("/*", async (req, res) => {
 
     const tokenRes = await client.request('CreateToken')
 
-    const tts = new Nls.SpeechSynthesizer({
-        url: process.env.ALIYUN_NLS_ENDPOINT,
-        appkey: process.env.TTS_APP_KEY,
-        token: tokenRes.Token.Id
-    })
-    tts.on("data", (msg) => {
-        res.write(msg)
-    })
-
     const reqJson = await req.json()
 
-    const ttsParam = tts.defaultStartParams()
-    ttsParam.text = reqJson.text
-    ttsParam.voice = process.env.TTS_VOICE_ID
+    // const tts = new Nls.SpeechSynthesizer({
+    //     url: process.env.ALIYUN_NLS_ENDPOINT,
+    //     appkey: process.env.TTS_APP_KEY,
+    //     token: tokenRes.Token.Id
+    // })
+    // tts.on("data", (msg) => {
+    //     res.write(msg)
+    // })
+    //
+    // const ttsParam = tts.defaultStartParams()
+    // ttsParam.text = reqJson.text
+    // ttsParam.voice = process.env.TTS_VOICE_ID
+    //
+    // await tts.start(ttsParam, true, 6000)
 
-    await tts.start(ttsParam, true, 6000)
-
-    res.send()
+    res.send(reqJson)
 
     console.log("FC Invoke End RequestId: " + requestId);
 });
