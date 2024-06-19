@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
+    "@alicloud/pop-core": "^1.7.13",
     "express": "^4.19.2"
   }
 }
