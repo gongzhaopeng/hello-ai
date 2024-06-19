@@ -24,7 +24,12 @@ app.all("/*", (req, res) => {
     client.request('CreateToken').then((result) => {
         res.send(
             JSON.stringify({
-                msg: result,
+                msg: {
+                    accessKeyId: process.env.ALIYUN_AK_ID,
+                    accessKeySecret: process.env.ALIYUN_AK_SECRET,
+                    endpoint: process.env.ALIYUN_META_ENDPOINT,
+                    apiVersion: process.env.ALIYUN_META_API_VERSION
+                },
                 request: {
                     query: req.query,
                     path: req.originalUrl,
