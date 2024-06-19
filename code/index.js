@@ -21,7 +21,7 @@ app.all("/*", (req, res) => {
     //     apiVersion: process.env.ALIYUN_META_API_VERSION
     // });
 
-    client.request('CreateToken').then((result) => {
+    // client.request('CreateToken').then((result) => {
         res.send(
             JSON.stringify({
                 msg: {
@@ -38,7 +38,7 @@ app.all("/*", (req, res) => {
                 },
             })
         );
-    });
+    // });
 
     console.log("FC Invoke End RequestId: " + requestId);
 });
