@@ -14,12 +14,12 @@ app.all("/*", (req, res) => {
     const requestId = req.headers["x-fc-request-id"];
     console.log("FC Invoke Start RequestId: " + requestId);
 
-    const client = new RPCClient({
-        accessKeyId: process.env.ALIYUN_AK_ID,
-        accessKeySecret: process.env.ALIYUN_AK_SECRET,
-        endpoint: process.env.ALIYUN_META_ENDPOINT,
-        apiVersion: process.env.ALIYUN_META_API_VERSION
-    });
+    // const client = new RPCClient({
+    //     accessKeyId: process.env.ALIYUN_AK_ID,
+    //     accessKeySecret: process.env.ALIYUN_AK_SECRET,
+    //     endpoint: process.env.ALIYUN_META_ENDPOINT,
+    //     apiVersion: process.env.ALIYUN_META_API_VERSION
+    // });
 
     client.request('CreateToken').then((result) => {
         res.send(
