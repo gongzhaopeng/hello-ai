@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 
 const RPCClient = require('@alicloud/pop-core').RPCClient;
+const Nls = require('alibabacloud-nls')
 
 const app = express();
 
@@ -21,18 +22,23 @@ app.all("/*", (req, res) => {
         apiVersion: process.env.ALIYUN_META_API_VERSION
     });
 
-    client.request('CreateToken').then((result) => {
-        res.send(
-            JSON.stringify({
-                msg: result,
-                request: {
-                    query: req.query,
-                    path: req.originalUrl,
-                    data: req.body,
-                    clientIp: req.headers["x-forwarded-for"],
-                },
-            })
-        );
+    client.request('CreateToken').then((tokenRes) => {
+        const tts = new Nls.SpeechSynthesizer({
+            url: process.env.ALIYUN_NLS_ENDPOINT,
+            appkey: process.env.TTS_APP_KEY,
+            token: tokenRes.Token.Id
+        })
+        tts.on("data", (msg) => {
+            res.write(msg)
+        })
+
+        let param = tts.defaultStartParams()
+        param.text = '你好，王可！'
+        param.voice = process.env.TTS_VOICE_ID
+
+        tts.start(param, true, 6000).then(() => {
+            res.send()
+        })
     });
 
     console.log("FC Invoke End RequestId: " + requestId);
