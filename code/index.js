@@ -32,16 +32,18 @@ app.all("/*", (req, res) => {
             res.write(msg)
         })
 
-        req.json().then(reqJson => {
-            let param = tts.defaultStartParams()
-            param.text = reqJson.text
-            param.voice = process.env.TTS_VOICE_ID
+        res.send(req.body)
 
-            // tts.start(param, true, 6000).then(() => {
-            //     res.send()
-            // })
-            res.send(reqJson)
-        })
+        // req.body.then(reqJson => {
+        //     let param = tts.defaultStartParams()
+        //     param.text = reqJson.text
+        //     param.voice = process.env.TTS_VOICE_ID
+        //
+        //     // tts.start(param, true, 6000).then(() => {
+        //     //     res.send()
+        //     // })
+        //     res.send(reqJson)
+        // })
     });
 
     console.log("FC Invoke End RequestId: " + requestId);
