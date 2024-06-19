@@ -37,9 +37,10 @@ app.all("/*", (req, res) => {
             param.text = reqJson.text
             param.voice = process.env.TTS_VOICE_ID
 
-            tts.start(param, true, 6000).then(() => {
-                res.send()
-            })
+            // tts.start(param, true, 6000).then(() => {
+            //     res.send()
+            // })
+            res.send(reqJson)
         })
     });
 
