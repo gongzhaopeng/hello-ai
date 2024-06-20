@@ -29,6 +29,13 @@ resources:
       environmentVariables:
         PATH: >-
           /opt/nodejs20/bin:/usr/local/bin/apache-maven/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/ruby/bin
+        ALIYUN_AK_ID: ${env(ALIYUN_AK_ID)}
+        ALIYUN_AK_SECRET: ${env(ALIYUN_AK_SECRET)}
+        ALIYUN_META_API_VERSION: ${env(ALIYUN_META_API_VERSION)}
+        ALIYUN_META_ENDPOINT: ${env(ALIYUN_META_ENDPOINT)}
+        ALIYUN_NLS_ENDPOINT: ${env(ALIYUN_NLS_ENDPOINT)}
+        TTS_APP_KEY: ${env(TTS_APP_KEY)}
+        TTS_VOICE_ID: ${env(TTS_VOICE_ID)}
       customRuntimeConfig:
         command:
           - node
