@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.text());
 app.use(bodyParser.raw());
 
-app.all("/*", (req, res) => {
+app.all("/*", async (req, res) => {
     const requestId = req.headers["x-fc-request-id"];
     console.log("FC Invoke Start RequestId: " + requestId);
 
@@ -22,24 +22,23 @@ app.all("/*", (req, res) => {
         apiVersion: process.env.ALIYUN_META_API_VERSION
     });
 
-    client.request('CreateToken').then((tokenRes) => {
-        const tts = new Nls.SpeechSynthesizer({
-            url: process.env.ALIYUN_NLS_ENDPOINT,
-            appkey: process.env.TTS_APP_KEY,
-            token: tokenRes.Token.Id
-        })
-        tts.on("data", (msg) => {
-            res.write(msg)
-        })
+    const tokenRes = await client.request('CreateToken')
 
-        let param = tts.defaultStartParams()
-        param.text = req.body.text
-        param.voice = process.env.TTS_VOICE_ID
+    const tts = new Nls.SpeechSynthesizer({
+        url: process.env.ALIYUN_NLS_ENDPOINT,
+        appkey: process.env.TTS_APP_KEY,
+        token: tokenRes.Token.Id
+    })
+    tts.on("data", (msg) => {
+        res.write(msg)
+    })
 
-        tts.start(param, true, 6000).then(() => {
-            res.send()
-        })
-    });
+    let param = tts.defaultStartParams()
+    param.text = req.body.text
+    param.voice = process.env.TTS_VOICE_ID
+    await tts.start(param, true, 6000)
+
+    res.send()
 
     console.log("FC Invoke End RequestId: " + requestId);
 });
